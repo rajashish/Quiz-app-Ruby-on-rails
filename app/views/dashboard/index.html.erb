@@ -1,0 +1,52 @@
+<h1 align="center">DASHBOARD</h1>
+<a href="/quizplay" class="btn btn-success btn-lg btn-block"> play Quiz</a>
+<br>
+<br>
+<% if notice %>
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong id="notice" style="color: white"><%= notice %></strong>
+    </div>
+<% end %>
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">User Info</h3>
+  </div>
+
+ <table class="table table-striped table-hover">
+ <tr class="active">
+ <td>Email id.</td>
+ <td><%=current_user.email %>
+ </td>
+ </tr>
+ <tr class="active">
+ <td>Score</td>
+ <td><%=current_user.score %></td>
+ </tr>
+ <tr class="active">
+ <td>Quizzes Taken</td>
+      <td>
+        <ul >
+          <% if @quizes.empty? %>
+              No quiz taken
+          <% else %>
+          
+              <% @quizes.each do |quiz| %>
+                  <li class="list-group-item">
+                    <span class="badge"><%= quiz.score %></span>
+                    <%= quiz.subgenre.name %>
+                  </li>
+              <% end %>
+          <% end %>
+        </ul>
+      </td>
+</table>
+</div>
+<blockquote class="active">
+  <p>Wisdom is not a product of schooling but of the lifelong attempt to acquire it.</p>
+  <small>Albert Einstein <cite title="Source Title">Source Title</cite></small>
+</blockquote>
+
+
+
+

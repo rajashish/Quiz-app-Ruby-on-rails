@@ -1,0 +1,45 @@
+<br>
+<p> your score is :  <%= current_user.cqscore %></hp>
+<%= form_for :arr, controller: "takequiz", action: "next", method: "post", class: "form-horizontal" do |form| %>
+    <div class="well bs-component">
+      <div class="container-fluid">
+        <h2><%= @question.question.html_safe %></h2>
+        <br>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <%= form.check_box('[1]') %>  <%= @question.option1 %>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <%= form.check_box('[2]') %>  <%= @question.option2 %>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <%= form.check_box('[3]') %>  <%= @question.option3 %>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <%= form.check_box('[4]') %>  <%= @question.option4 %>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <center>
+      <% if @last %>
+          <%= form.submit "Submit", :name => nil, type: "submit", class: "btn btn-lg btn-success btn" %>
+      <% else %>
+          <%= form.submit "Next", :name => nil, type: "submit", class: "btn btn-lg btn-primary btn" %>
+      <% end %>
+    </center>
+<% end %>

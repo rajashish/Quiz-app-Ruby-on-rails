@@ -1,0 +1,24 @@
+<br>
+<%= form_for :arr, controller: "takequiz", action: "continuepost", method: "post", class: "form-horizontal" do |form|%>
+    <div class="well bs-component">
+      <div class="container-fluid">
+        <h2>Would you like to resume the previous quiz?</h2>
+        <br>
+        <div class="form-group">
+          <div class="col-lg-10">
+            <div class="radio">
+              <label>
+                <%= form.radio_button("contopt", "Yes", type: "radio", checked: true) %> Yes
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <%= form.radio_button("contopt", "No", type: "radio") %> No
+              </label>
+            </div>
+          </div>
+        </div>
+              <%= form.submit "Submit", :name => nil, type: "submit", class: "btn btn-lg btn-success btn"%>
+      </div>
+    </div>
+<% end %>

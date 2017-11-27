@@ -1,0 +1,2 @@
+module QuizplayHelper
+end

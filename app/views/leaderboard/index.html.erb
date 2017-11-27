@@ -1,0 +1,115 @@
+<%= javascript_include_tag 'https://code.jquery.com/jquery-3.2.1.js'%>
+<style>
+  table, th, td {
+    font-size: large;
+  }
+</style>
+
+<h1>Leaderboard</h1>
+<br>
+<%	if notice  %>
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong id ="notice" style="color: white"><%= notice %></strong>
+    </div>
+<%	end %>
+<br>
+  <form class="container-fluid">
+    <div class="form-group">
+      <label for="genre">Genre</label>
+        <select class="form-control" id="genre">
+          <option>All</option>
+          <% @genres.each do |genre| %>
+            <option><%= genre.name %></option>
+          <% end %>
+        </select>
+    </div>
+    <div class="form-group">
+      <label for="subgenre">Subgenre</label>
+      <select class="form-control" id="subgenre">
+        <option>All</option>
+      </select>
+    </div>
+  </form>
+<br><br>
+<div class="well bs-component">
+  <div class="container-fluid">
+    <table class="table table-hover ">
+      <thead>
+      <tr>
+        <th>id</th>
+        <th>User</th>
+        <th>Score</th>
+      </tr>
+      </thead>
+      <tbody id = "table_ins">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+      var update = function() {
+          var genre = $('#genre :selected').text();
+          var subgenre = $('#subgenre :selected').text();
+          var ins = $('#table_ins').empty();
+          $.ajax({
+              url: '/leaderboard/update',
+              type: 'POST',
+              beforeSend: function (xhr) {
+                  xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+              },
+              data: {
+                  genre: genre,
+                  subgenre: subgenre
+              },
+              success: function (data, event, status, xhr) {
+                  for (var i = 0; i < data.length; i++) {
+                      ins.append("<tr><td>" + (i + 1).toString() + "</td><td>" + data[i].user + "</td><td>" + data[i].score + "</td></tr>");
+                  }
+              },
+              error: function (event, data, status, xhr) {
+                  alert(data);
+              }
+          });
+      };
+
+      $(document).on('change', '#subgenre', function() {
+          update();
+      });
+
+      $('#genre').change(function(){
+          var genre = $('#genre :selected').text();
+          if (genre.toString() =="All")
+          {
+              var ins = $('#subgenre').empty();
+              ins.append("<option>All</option>");
+              update();
+              return;
+          }
+          var ins = $('#subgenre').empty();
+          ins.append("<option>All</option>");
+          $.ajax({
+              url: '/leaderboard/getsubgenres',
+              type: 'POST',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              data: {
+                  genre: genre
+              },
+              success: function(data, event, status, xhr) {
+                  for (var i = 0; i < data.length; i++) {
+                      ins.append("<option>"+ data[i].name +"</option>");
+                  }
+              },
+              error: function(event, data, status, xhr) {
+                  alert (data);
+              }
+          });
+          update();
+      });
+
+      update();
+  });
+</script>

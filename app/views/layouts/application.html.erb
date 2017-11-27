@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <head>
+    <title>iQuiz</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'jquery-1.10.2.min'%>
+    <%= javascript_include_tag 'bootstrap.min'%>
+    <%= stylesheet_link_tag    'bootstrap' %>
+  </head>
+
+  <body background="https://image.freepik.com/free-vector/grey-linen-texture-background_1053-253.jpg">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <p class="sr-only">Toggle navigation</p>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" style="color:black" href="/"> <i class="fa fa-home"></i></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+          <li class="active"><a href="/quizplay" style="font-size: medium">Play Quiz</a></li>
+          
+         
+        </ul>
+        
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+              <% if current_user.admin %>
+                  <li><%= link_to "Admin Page", rails_admin_path, style: "font-size: larger", :method => :get %></li>
+              <%  end %>
+              <li style="color:black"><%= link_to "Sign Out", destroy_user_session_path, style: "font-size: larger", :method => :delete %></li>
+          <% else %>
+              <li><%= link_to "Sign In", new_user_session_path, style: "font-size: larger", :method => :get %></li>
+              <li><%= link_to "Sign Up", new_user_registration_path, :method => :get %></li>
+          <%  end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+   <div class="container"><p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+    <%= yield %></div>
+  </body>
+</html>
